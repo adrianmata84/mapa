@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 	
-	<title>Mobile tutorial - Leaflet</title>
+	<title>Clinicas (Convenio)</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +26,18 @@
 	</style>
 
 	<style>body { padding: 0; margin: 0; } #map { height: 100%; width: 100vw; }</style>
+    
+    <!--*********************************************************************-->
+    <style>
+    .info { 
+        text-align: right;
+        padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; 
+    } 
+    .info h4 {
+            margin: 0 0 5px; color: #777;
+    }
+    </style>
+    <!--*********************************************************************-->
 </head>
 <body>
 
@@ -38,16 +51,77 @@
 		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox/streets-v11'
+		id: 'mapbox/streets-v11',
+        opacity:1,
+        tileSize: 512,//https://stackoverflow.com/a/37043490
+        zoomOffset: -1//https://stackoverflow.com/a/37043490
 	}).addTo(map);
+    
+    
+    //******************************************************************
+    /*
+    //popup (w/o marker!)
+    var popup = L.popup()
+    .setLatLng([0,0])
+    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+    .openOn(map);
+    */
+    
+    // tarjeta con Titulo
+	var info = L.control({
+        position : 'topright'
+    });
 
+    
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+    
+	info.update = function (props) {
+        /*
+		this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+			'<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+			: 'Hover over a state');
+        */
+        this._div.innerHTML = '<h4>Clinicas Convenio Banesco</h4>' + 'Al 15 de enero 2020' + '';
+	};
+    
+	info.addTo(map);
+    
+    //******************************************************************
+    
+    var otherIcon = new L.Icon({
+      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+    var customIcon = new L.Icon({
+      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+    //******************************************************************
+    
+    
 	function onLocationFound(e) {
 		var radius = e.accuracy / 2;
-
-		L.marker(e.latlng).addTo(map)
-			.bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-		L.circle(e.latlng, radius).addTo(map);
+        //var radius = 1000;
+        
+		//L.marker(e.latlng).addTo(map)
+		//	.bindPopup("You are within " + radius + " meters from this point").openPopup();
+        
+        L.marker(e.latlng,{icon: customIcon}).addTo(map).bindPopup("<b>Mi ubicación</b>");//.openPopup();
+        console.log(e.latlng);
+        
+		L.circle(e.latlng, radius, {color: "gray", opacity:.4}).addTo(map);
 	}
 
 	function onLocationError(e) {
@@ -58,6 +132,29 @@
 	map.on('locationerror', onLocationError);
 
 	map.locate({setView: true, maxZoom: 16});
+    
+    var C = [
+    ["CENTRO MEDICO TOTAL LECHERIA, C.A.", [10.179147, -64.679305],"0414-8054129<br>0424-8329875<br>0414-8054129<br>0414-8017645"],
+    ["UNIDAD PEDIATRICA DE ORIENTE, C.A.", [10.138304, -64.688592],"0414-8054129<br>0424-8329875<br>0414-8054129<br>0414-8017645"],
+    
+    ["CENTRO MEDICO ZAMBRANO, C.A.", [10.136393, -64.691257],"0281-2762611<br>0281-2701269"],
+    ["CENTRO MATERNO INFANTIL LA MATERNIDAD C.A.", [8.897652, -64.245693],"0283-2310896<br>0283-2359523"],
+    ["CLINICA SANTA ROSA C.A", [8.891283, -64.247490],"0283-5005100"],
+    ["CENTRO QUIRURGICO WINSTON CHURCHILL C.A.", [8.884677, -64.236602],"0283-2413379<br>0283-2413570<br>0283-2414685<br>0283-2416522<br>0283-2416747"],
+    //.......................
+    ["CLINICA INFANTIL DEL ESTE", [10.490036, -66.816731],"0212-2380195<br>0212-2375967<br>0212-2344250"],
+    ["CLINICA EL AVILA, C.A", [10.504336, -66.850255],"0212-2761191"],
+    //["xxxxxxxxx", [xxxxxx],"xxxxxx"],
+    //["xxxxxxxxx", [xxxxxx],"xxxxxx"],
+    //["xxxxxxxxx", [xxxxxx],"xxxxxx"],
+        
+        ]
+        
+        for(var i=0;i<C.length;i++){
+            L.marker(C[i][1],{icon: otherIcon}).addTo(map).bindPopup("<b>"+C[i][0]+"</b><br>"+C[i][2]);
+        }
+    
+    
 </script>
 
 
