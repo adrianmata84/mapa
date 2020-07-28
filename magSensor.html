@@ -5,7 +5,7 @@
 let magSensor = null;
 try {
     let magSensor = new Magnetometer({frequency: 60});
-    accelerometer.addEventListener('error', event => {
+    magSensor.addEventListener('error', event => {
         // Handle runtime errors.
         if (event.error.name === 'NotAllowedError') {
             // Branch to code for requesting permission.
@@ -13,12 +13,15 @@ try {
             document.getElementById("myList").innerHTML='Cannot connect to the sensor.';
         }
     });
+    
     magSensor.addEventListener('reading', e => {
       var x = "Magnetic field along the X-axis " + magSensor.x;
       var y = "Magnetic field along the Y-axis " + magSensor.y;
       var z = "Magnetic field along the Z-axis " + magSensor.z;
       document.getElementById("myList").innerHTML = x + "<br>"+ y  + "<br>"+z;
     });
+    magSensor.start();
+    
 } catch (error) {
     // Handle construction errors.
     if (error.name === 'SecurityError') {
@@ -30,6 +33,4 @@ try {
         document.getElementById("res").innerHTML=error.name;
     }
 }
-
-magSensor.start();
 </script>
