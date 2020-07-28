@@ -1,13 +1,35 @@
-<h1>::sensor::</h1>
+<h1>::senso r::</h1>
+<p id="res"></p>
 <p id="myList"></p>
 <script>
-let magSensor = new Magnetometer({frequency: 60});
+let magSensor = null;
+try {
+    let magSensor = new Magnetometer({frequency: 60});
+    accelerometer.addEventListener('error', event => {
+        // Handle runtime errors.
+        if (event.error.name === 'NotAllowedError') {
+            // Branch to code for requesting permission.
+        } else if (event.error.name === 'NotReadableError' ) {
+            document.getElementById("myList").innerHTML='Cannot connect to the sensor.';
+        }
+    });
+    magSensor.addEventListener('reading', e => {
+      var x = "Magnetic field along the X-axis " + magSensor.x;
+      var y = "Magnetic field along the Y-axis " + magSensor.y;
+      var z = "Magnetic field along the Z-axis " + magSensor.z;
+      document.getElementById("myList").innerHTML = x + "<br>"+ y  + "<br>"+z;
+    });
+} catch (error) {
+    // Handle construction errors.
+    if (error.name === 'SecurityError') {
+        // See the note above about feature policy.
+        document.getElementById("res").innerHTML='Sensor construction was blocked by a feature policy.';
+    } else if (error.name === 'ReferenceError') {
+        document.getElementById("res").innerHTML='Sensor is not supported by the User Agent.';
+    } else {
+        document.getElementById("res").innerHTML=error.name;
+    }
+}
 
-magSensor.addEventListener('reading', e => {
-  var x = "Magnetic field along the X-axis " + magSensor.x;
-  var y = "Magnetic field along the Y-axis " + magSensor.y;
-  var z = "Magnetic field along the Z-axis " + magSensor.z;
-  document.getElementById("myList").innerHTML(x + "<br>"+ y  + "<br>"+z);
-});
 magSensor.start();
 </script>
