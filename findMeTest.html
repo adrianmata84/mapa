@@ -1,22 +1,50 @@
-<button id = "find-me">Show my location</button><br/>
+<html>
+<body>
+<head>
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+ <style>
+    div.sticky {
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      top: 30;
+    }
+ </style>
+</head>
+<body style="text-align: center; padding:30;">
+<div class="sticky">
+    <button id = "find-me" class="w3-jumbo" style="border-radius: 5%;">🌎<br><span class="w3-small">log this location</span></button>
+</div>
 <p id = "status"></p>
+<div id = "coorList" class="w3-panel w3-pale-green w3-bottombar w3-border-green w3-border" style="display:none;"></div>
+<!--<button id = "undoLast" style="border-radius: 5%;">undo</button>-->
 <a id = "map-link" target="_blank"></a>
 <script>
 function geoFindMe() {
-
+    if (confirm("add to list?")==false){
+        return;
+    }
   const status = document.querySelector('#status');
   const mapLink = document.querySelector('#map-link');
-
+    
   mapLink.href = '';
   mapLink.textContent = '';
 
   function success(position) {
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
-
-    status.textContent = '';
-    mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-    mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+    
+    document.getElementById("coorList").style.display = "block"; 
+    
+    var p = document.createElement("p");
+    p.classList.add("w3-tiny");
+    p.innerHTML = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+    document.getElementById("coorList").append(p);
+    CopyToClipboard("coorList");
+    
+    status.textContent = 'copied to clipboard!';
+    
+    //mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+    //mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
   }
 
   function error() {
@@ -29,8 +57,39 @@ function geoFindMe() {
     status.textContent = 'Locating…';
     navigator.geolocation.getCurrentPosition(success, error);
   }
-
+    
 }
 
 document.querySelector('#find-me').addEventListener('click', geoFindMe);
+
+
+//============================================================================
+
+function CopyToClipboard(containerid) {
+  if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(containerid));
+    range.select().createTextRange();
+    document.execCommand("copy");
+  } else if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(document.getElementById(containerid));
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    //alert("Text has been copied, now paste in the text-area")
+  }
+}
+
+//============================================================================
+
+function undoAction(){
+    if (confirm("undo last?") == true){
+        var list = document.getElementById("coorList");   // Get the <ul> element with id="myList"
+        list.removeChild(list.lastChild);
+    }
+    
+}
+document.querySelector('#undoLast').addEventListener('click', undoAction);
 </script>
+</body>
+</html>
