@@ -1,0 +1,12 @@
+<div id="myList"></div>
+<script>
+let magSensor = new Magnetometer({frequency: 60});
+
+magSensor.addEventListener('reading', e => {
+  var x = "Magnetic field along the X-axis " + magSensor.x;
+  var y = "Magnetic field along the Y-axis " + magSensor.y;
+  var z = "Magnetic field along the Z-axis " + magSensor.z;
+  document.getElementById("myList").innerHTML(x + "<br>"+ y  + "<br>"+z);
+});
+magSensor.start();
+</script>
