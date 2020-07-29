@@ -6,12 +6,12 @@
  </style>
 </head>
 <body class="w3-container w3-margin">
-<button id="rockIt" class="w3-round w3-xxlarge">⚡</br><span class="w3-small">vibrate*</button>
+<button id="rockIt" class="w3-round w3-xxlarge">⚡</br><span class="w3-small">vibrate?</button>
 <div id="myList"></div>
 <script>
 function vibrateSome(){
     try{
-        var vibrate = window.navigator.vibrate || navigator.mozVibrate;
+        var vibrate = window.navigator.vibrate;// || navigator.mozVibrate;
         vibrate(3000);
         //vibrate([1000, 500, 1000, 500, 1000]);
     }catch(error){
