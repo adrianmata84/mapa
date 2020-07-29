@@ -11,12 +11,21 @@
 <p id="myList"></p>
 <script>
 let acl = new Accelerometer({frequency: 60});
+var vibrate = navigator.vibrate || navigator.mozVibrate;
 
+var wasPositive = false;
 acl.addEventListener('reading', () => {
   var x = "Acceleration along the X-axis " + acl.x;
   var y = "Acceleration along the Y-axis " + acl.y;
   var z = "Acceleration along the Z-axis " + acl.z;
-  document.getElementById("myList").innerHTML = x + "<br>"+ y  + "<br>"+z;
+  //document.getElementById("myList").innerHTML = x + "<br>"+ y  + "<br>"+z;
+  a = (acl.x>0 && wasPositive==false && Math.abs(acl.x>5))
+  b = (acl.x<0 && wasPositive==false && Math.abs(acl.x>5))
+  if(a || b){
+    wasPositive = (acl.x>0);
+    vibrate([1000, 500, 1000, 500, 1000]);
+    document.getElementById("myList").innerHTML = acl.x;
+  }
 });
 
 acl.start();
