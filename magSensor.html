@@ -7,8 +7,8 @@
 </head>
 <body class="w3-container">
 <h1>acc sensor .3</h1>
-<p id="res"></p>
-<p id="myList"></p>
+<button id="rockIt" class="w3-round w3-xxlarge w3-yellow">⚡</br><span class="w3-small">vibrate?</button>
+<div id="myList"></div>
 <script>
 let acl = new Accelerometer({frequency: 60});
 var isPositive;
@@ -20,7 +20,12 @@ acl.addEventListener('reading', () => {
   if(acl.x<-5 || acl.x>5){
     if(isPositive != (acl.x>0)){
         isPositive = (acl.x>0);
-        document.getElementById("myList").innerHTML = acl.x;
+        //document.getElementById("myList").innerHTML = acl.x;
+        
+        var p = document.createElement("p");
+        p.classList.add("w3-tiny");
+        p.innerHTML = acl.x;
+        document.getElementById("myList").append(p);
         v();
     }
   }
@@ -31,6 +36,7 @@ function v(){
         window.navigator.vibrate(300); 
     } 
 }
+document.querySelector('#rockIt').addEventListener('click', v);
 </script>
 </body>
 </html>
