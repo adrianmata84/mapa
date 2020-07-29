@@ -1,0 +1,28 @@
+<html>
+<body>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+ </style>
+</head>
+<body class="w3-container w3-margin">
+<button id="rockIt" class="w3-round w3-xxlarge">⚡</br><span class="w3-small">vibrate!</button>
+<div id="myList"></div>
+<script>
+function vibrateSome(){
+    try{
+        var vibrate = navigator.vibrate || navigator.mozVibrate;
+        vibrate([4000]);
+        //vibrate([1000, 500, 1000, 500, 1000]);
+    }catch(error){
+        document.getElementById("myList").innerHTML = "<i>VIBRATE failure</i></br>" + error.name;
+    }
+    
+    
+}
+document.querySelector('#rockIt').addEventListener('click', vibrateSome);
+
+acl.start();
+</script>
+</body>
+</html>
