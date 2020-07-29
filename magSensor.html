@@ -6,12 +6,16 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor .2</h1>
+<h1>acc sensor .21</h1>
 <p id="res"></p>
 <p id="myList"></p>
 <script>
 let acl = new Accelerometer({frequency: 60});
-//var vibrate = navigator.vibrate || navigator.mozVibrate;
+try{
+    var vibrate = navigator.vibrate || navigator.mozVibrate;
+}catch(error){
+    document.getElementById("myList").innerHTML = "<i>VIBRATE failure</i>";
+}
 
 var isPositive;
 acl.addEventListener('reading', () => {
@@ -23,11 +27,9 @@ acl.addEventListener('reading', () => {
     if(isPositive != (acl.x>0)){
         isPositive = (acl.x>0);
         document.getElementById("myList").innerHTML = acl.x;
+        //vibrate([1000, 500, 1000, 500, 1000]);
+        vibrate([4000]);
     }
-    
-    //vibrate([1000, 500, 1000, 500, 1000]);
-    //vibrate([4000]);
-    
   }
 });
 
