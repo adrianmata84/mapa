@@ -1,0 +1,25 @@
+<html>
+<body>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+ </style>
+</head>
+<body class="w3-container">
+<div id="myList"></div>
+<script>
+function yourFunction(){
+    
+    var p = document.createElement("p");
+    p.classList.add("w3-small");
+    var d = new Date();
+    p.innerHTML = d;//Date.now();
+    document.getElementById("myList").append(p);
+    
+    setTimeout(yourFunction, 1000);
+}
+
+yourFunction();
+</script>
+</body>
+</html>
