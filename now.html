@@ -6,6 +6,7 @@
  </style>
 </head>
 <body class="w3-container">
+<h1>now()</h1>
 <div id="myList"></div>
 <script>
 function yourFunction(){
@@ -16,7 +17,7 @@ function yourFunction(){
     p.innerHTML = d;//Date.now();
     document.getElementById("myList").append(p);
     
-    setTimeout(yourFunction, 1000);
+    setTimeout(yourFunction, 20000);
 }
 
 yourFunction();
