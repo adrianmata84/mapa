@@ -11,7 +11,7 @@
 <p id="myList"></p>
 <script>
 let acl = new Accelerometer({frequency: 60});
-var vibrate = navigator.vibrate || navigator.mozVibrate;
+//var vibrate = navigator.vibrate || navigator.mozVibrate;
 
 var wasPositive = false;
 acl.addEventListener('reading', () => {
@@ -23,7 +23,7 @@ acl.addEventListener('reading', () => {
   b = (acl.x<0 && wasPositive==false && Math.abs(acl.x>5))
   if(a || b){
     wasPositive = (acl.x>0);
-    vibrate([1000, 500, 1000, 500, 1000]);
+    //vibrate([1000, 500, 1000, 500, 1000]);
     document.getElementById("myList").innerHTML = acl.x;
   }
 });
