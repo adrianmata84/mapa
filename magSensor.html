@@ -6,7 +6,7 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor .221</h1>
+<h1>acc sensor .23</h1>
 <p id="res"></p>
 <p id="myList"></p>
 <script>
@@ -22,7 +22,7 @@ acl.addEventListener('reading', () => {
         isPositive = (acl.x>0);
         document.getElementById("myList").innerHTML = acl.x;
         if (navigator.vibrate) { 
-            window.navigator.vibrate(1000); 
+            window.navigator.vibrate(300); 
         } 
     }
   }
