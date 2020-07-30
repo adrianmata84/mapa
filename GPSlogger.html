@@ -13,7 +13,7 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>GPS log</h1>
+<h1>GPS log .1</h1>
 <div id="myList" class="w3-container" style="overflow:auto;height:100px;border: solid 1px"></div>
 <p><button id="copyList" class="w3-round w3-button w3-black" disabled><b>copy to clipboard</b></button></p>
 <script>
@@ -49,7 +49,7 @@ function geoFindMe() {
     navigator.geolocation.getCurrentPosition(success, error);
   }
   
-  setTimeout(geoFindMe, 5000);
+  setTimeout(geoFindMe, 20000);
 }
 //=================================================================
 function CopyToClipboard(containerid="myList") {
