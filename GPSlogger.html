@@ -1,0 +1,74 @@
+<html>
+<body>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+ <style>
+ .hilite{
+    background-color:#ffff99;
+ }
+ .no-bg-color{
+    background-color:blue;
+ }
+ </style>
+</head>
+<body class="w3-container">
+<h1>GPS log</h1>
+<div id="myList" class="w3-container" style="overflow:auto;height:100px;border: solid 1px"></div>
+<p><button id="copyList" class="w3-round w3-button w3-black" disabled><b>copy to clipboard</b></button></p>
+<script>
+function geoFindMe() { 
+  function success(position) {
+    
+    hiliteClass = "hilite"
+    var x = document.getElementById("myList").getElementsByClassName(hiliteClass);
+    for (i = 0; i < x.length; i++) {
+      //x[i].style.backgroundColor = "red";
+      x[i].classList.remove(hiliteClass);
+    } 
+        
+    
+    
+    const latitude  = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    var p = document.createElement("p");
+    p.classList.add("w3-tiny");
+    p.classList.add(hiliteClass);
+    p.innerHTML = latitude + ", " + longitude;
+    p.innerHTML = `lat: ${latitude}, lon: ${longitude}`;
+    document.getElementById("myList").append(p);
+    document.getElementById("myList").scrollTop = document.getElementById("myList").scrollHeight;
+  }
+  function error() {
+    return 'Unable to retrieve your location';
+  }
+
+  if(!navigator.geolocation) {
+    return 'Geolocation is not supported by your browser';
+  } else {
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+  
+  setTimeout(geoFindMe, 5000);
+}
+//=================================================================
+function CopyToClipboard(containerid="myList") {
+  if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(containerid));
+    range.select().createTextRange();
+    document.execCommand("copy");
+  } else if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(document.getElementById(containerid));
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    //alert("Text has been copied, now paste in the text-area")
+  }
+}
+//=================================================================
+document.querySelector('#copyList').addEventListener('click', CopyToClipboard);
+geoFindMe();
+</script>
+</body>
+</html>
