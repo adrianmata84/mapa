@@ -6,7 +6,7 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor 0.42</h1>
+<h1>acc sensor 0.43</h1>
 <button id="rockIt" class="w3-round w3-xxlarge w3-yellow">⚡</br><span class="w3-small">vibrate</button>
 <div id="myList"></div>
 <p id = "status">&nbsp;</p>
@@ -98,7 +98,7 @@ acl.addEventListener('reading', () => {
 acl.start();
 function v(){
     if (navigator.vibrate) { 
-        window.navigator.vibrate(300); 
+        window.navigator.vibrate([300,100,300]); 
     } 
 }
 document.querySelector('#rockIt').addEventListener('click', v);
