@@ -6,7 +6,7 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor 0.41</h1>
+<h1>acc sensor 0.42</h1>
 <button id="rockIt" class="w3-round w3-xxlarge w3-yellow">⚡</br><span class="w3-small">vibrate</button>
 <div id="myList"></div>
 <p id = "status">&nbsp;</p>
@@ -32,7 +32,7 @@ function geoFindMe() {
     
     var p = document.createElement("p");
     p.classList.add("w3-tiny");
-    p.innerHTML = `Latitude: ${latitude} Â°, Longitude: ${longitude} Â°`;
+    p.innerHTML = `lat: ${latitude} °, lon: ${longitude} °`;
     document.getElementById("coorList").append(p);
     CopyToClipboard("coorList");
     
@@ -52,12 +52,27 @@ function geoFindMe() {
   if(!navigator.geolocation) {
     status.textContent = 'Geolocation is not supported by your browser';
   } else {
-    status.textContent = 'Locatingâ€¦';
+    status.textContent = '..locating..';
     navigator.geolocation.getCurrentPosition(success, error);
   }
     
 }
+//============================================================================
 
+function CopyToClipboard(containerid) {
+  if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(containerid));
+    range.select().createTextRange();
+    document.execCommand("copy");
+  } else if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(document.getElementById(containerid));
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    //alert("Text has been copied, now paste in the text-area")
+  }
+}
 //************************************************************************************
 let acl = new Accelerometer({frequency: 60});
 var isPositive;
