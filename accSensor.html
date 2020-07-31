@@ -35,7 +35,9 @@ function geoFindMe() {
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
     
+    
     hiliteClass = "hilite"
+    document.getElementById("myList").classList.remove(hiliteClass);
     var x = document.getElementById("myList").getElementsByClassName(hiliteClass);
     for (i = 0; i < x.length; i++) {
       x[i].classList.remove(hiliteClass);
@@ -84,7 +86,7 @@ function CopyToClipboard(containerid) {
 }
 //************************************************************************************
 let acl = new Accelerometer({frequency: 60});
-var isPrimed;
+var isPrimed=true;
 acl.addEventListener('reading', () => {
   var x = "Acceleration along the X-axis " + acl.x;
   var y = "Acceleration along the Y-axis " + acl.y;
@@ -100,6 +102,9 @@ acl.addEventListener('reading', () => {
   */
   if(acl.x>5){
     isPrimed=true;
+  }
+  if(isPrimed){
+    document.getElementById("myList").classList.remove(hiliteClass);
   }
   if(acl.x<-10 && isPrimed){
     geoFindMe();
