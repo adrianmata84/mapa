@@ -8,10 +8,13 @@
 body {
     overscroll-behavior-y: contain;
 }
+.hilite{
+    background-color:#ffff99;
+ }
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor 0.461</h1>
+<h1>acc sensor 0.462</h1>
 <button id="rockIt" class="w3-round w3-button w3-yellow">enable vibration</button>
 <div id = "myList" class="w3-panel" style="overflow:auto;height:100px;border: solid 1px"></div>
 <p><button id="copyList" class="w3-round w3-button w3-black"><b>copy to clipboard</b></button></p>
@@ -32,12 +35,18 @@ function geoFindMe() {
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
     
-    document.getElementById("myList").style.display = "block"; 
+    hiliteClass = "hilite"
+    var x = document.getElementById("myList").getElementsByClassName(hiliteClass);
+    for (i = 0; i < x.length; i++) {
+      x[i].classList.remove(hiliteClass);
+    } 
     
     var p = document.createElement("p");
     p.classList.add("w3-tiny");
+    p.classList.add(hiliteClass);
     p.innerHTML = `lat: ${latitude}, lon: ${longitude}`;
     document.getElementById("myList").append(p);   
+    document.getElementById("myList").scrollTop = document.getElementById("myList").scrollHeight;
     v();
     
     

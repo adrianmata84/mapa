@@ -7,9 +7,6 @@
  .hilite{
     background-color:#ffff99;
  }
- .no-bg-color{
-    background-color:blue;
- }
  html,
 body {
     overscroll-behavior-y: contain;
@@ -17,7 +14,7 @@ body {
  </style>
 </head>
 <body class="w3-container">
-<h1>GPS log .121</h1>
+<h1>GPS log .122</h1>
 <div id="myList" class="w3-container" style="overflow:auto;height:100px;border: solid 1px"></div>
 <p><button id="copyList" class="w3-round w3-button w3-black"><b>copy to clipboard</b></button></p>
 <script>
@@ -27,7 +24,6 @@ function geoFindMe() {
     hiliteClass = "hilite"
     var x = document.getElementById("myList").getElementsByClassName(hiliteClass);
     for (i = 0; i < x.length; i++) {
-      //x[i].style.backgroundColor = "red";
       x[i].classList.remove(hiliteClass);
     } 
         
