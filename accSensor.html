@@ -6,11 +6,10 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor 0.43</h1>
-<button id="rockIt" class="w3-round w3-xxlarge w3-yellow">⚡</br><span class="w3-small">vibrate</button>
-<div id="myList"></div>
-<p id = "status">&nbsp;</p>
-<div id = "coorList" class="w3-panel w3-pale-green w3-bottombar w3-border-green w3-border" style="display:none;"></div>
+<h1>acc sensor 0.44</h1>
+<button id="rockIt" class="w3-round w3-button w3-yellow">enable vibration</button>
+<div id = "myList" class="w3-panel" style="overflow:auto;height:100px;border: solid 1px"></div>
+<p><button id="copyList" class="w3-round w3-button w3-black"><b>copy to clipboard</b></button></p>
 <script>
 function geoFindMe() {
     /*if (confirm("add to list?")==false){
@@ -23,21 +22,18 @@ function geoFindMe() {
   mapLink.href = '';
   mapLink.textContent = '';
 */
-  const status = document.querySelector('#status');
+  //const status = document.querySelector('#status');
   function success(position) {
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
     
-    document.getElementById("coorList").style.display = "block"; 
+    document.getElementById("myList").style.display = "block"; 
     
     var p = document.createElement("p");
     p.classList.add("w3-tiny");
     p.innerHTML = `lat: ${latitude} °, lon: ${longitude} °`;
-    document.getElementById("coorList").append(p);
-    CopyToClipboard("coorList");
-    
+    document.getElementById("myList").append(p);   
     v();
-    status.textContent = 'copied to clipboard!';
     
     
     
@@ -46,13 +42,12 @@ function geoFindMe() {
   }
 
   function error() {
-    status.textContent = 'Unable to retrieve your location';
+    return 'Unable to retrieve your location';
   }
 
   if(!navigator.geolocation) {
-    status.textContent = 'Geolocation is not supported by your browser';
+    return 'Geolocation is not supported by your browser';
   } else {
-    status.textContent = '..locating..';
     navigator.geolocation.getCurrentPosition(success, error);
   }
     
@@ -80,16 +75,9 @@ acl.addEventListener('reading', () => {
   var x = "Acceleration along the X-axis " + acl.x;
   var y = "Acceleration along the Y-axis " + acl.y;
   var z = "Acceleration along the Z-axis " + acl.z;
-  //document.getElementById("myList").innerHTML = x + "<br>"+ y  + "<br>"+z;
   if(acl.x<-5 || acl.x>5){
     if(isPositive != (acl.x>0)){
         isPositive = (acl.x>0);
-        //document.getElementById("myList").innerHTML = acl.x;
-        
-        //var p = document.createElement("p");
-        //p.classList.add("w3-tiny");
-        //p.innerHTML = acl.x;
-        //document.getElementById("myList").append(p);
         geoFindMe();
         
     }
@@ -98,10 +86,13 @@ acl.addEventListener('reading', () => {
 acl.start();
 function v(){
     if (navigator.vibrate) { 
-        window.navigator.vibrate([300,100,300]); 
+        window.navigator.vibrate([300,200,300,200,300]); 
     } 
 }
 document.querySelector('#rockIt').addEventListener('click', v);
+document.querySelector('#copyList').addEventListener('click', function(){
+    CopyToClipboard("myList");
+});
 </script>
 </body>
 </html>

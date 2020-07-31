@@ -13,9 +13,9 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>GPS log .1</h1>
+<h1>GPS log .12</h1>
 <div id="myList" class="w3-container" style="overflow:auto;height:100px;border: solid 1px"></div>
-<p><button id="copyList" class="w3-round w3-button w3-black" disabled><b>copy to clipboard</b></button></p>
+<p><button id="copyList" class="w3-round w3-button w3-black"><b>copy to clipboard</b></button></p>
 <script>
 function geoFindMe() { 
   function success(position) {
@@ -52,7 +52,7 @@ function geoFindMe() {
   setTimeout(geoFindMe, 20000);
 }
 //=================================================================
-function CopyToClipboard(containerid="myList") {
+function CopyToClipboard(containerid) {
   if (document.selection) {
     var range = document.body.createTextRange();
     range.moveToElementText(document.getElementById(containerid));
@@ -67,7 +67,9 @@ function CopyToClipboard(containerid="myList") {
   }
 }
 //=================================================================
-document.querySelector('#copyList').addEventListener('click', CopyToClipboard);
+document.querySelector('#copyList').addEventListener('click', function(){
+    CopyToClipboard("myList");
+});
 geoFindMe();
 </script>
 </body>
