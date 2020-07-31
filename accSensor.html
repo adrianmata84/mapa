@@ -104,7 +104,7 @@ acl.addEventListener('reading', () => {
     isPrimed=true;
   }
   if(isPrimed){
-    document.getElementById("myList").classList.remove(hiliteClass);
+    document.getElementById("myList").classList.add(hiliteClass);
   }
   if(acl.x<-10 && isPrimed){
     geoFindMe();
