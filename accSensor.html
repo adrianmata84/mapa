@@ -3,10 +3,15 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+ <style>
+ html,
+body {
+    overscroll-behavior-y: contain;
+}
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor 0.45</h1>
+<h1>acc sensor 0.461</h1>
 <button id="rockIt" class="w3-round w3-button w3-yellow">enable vibration</button>
 <div id = "myList" class="w3-panel" style="overflow:auto;height:100px;border: solid 1px"></div>
 <p><button id="copyList" class="w3-round w3-button w3-black"><b>copy to clipboard</b></button></p>
@@ -31,7 +36,7 @@ function geoFindMe() {
     
     var p = document.createElement("p");
     p.classList.add("w3-tiny");
-    p.innerHTML = `lat: ${latitude} °, lon: ${longitude} °`;
+    p.innerHTML = `lat: ${latitude}, lon: ${longitude}`;
     document.getElementById("myList").append(p);   
     v();
     
@@ -86,7 +91,7 @@ acl.addEventListener('reading', () => {
 acl.start();
 function v(){
     if (navigator.vibrate) { 
-        window.navigator.vibrate([300,50,300,50,300]); 
+        window.navigator.vibrate([200,50,200]); 
     } 
 }
 document.querySelector('#rockIt').addEventListener('click', v);
