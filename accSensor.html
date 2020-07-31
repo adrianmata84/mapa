@@ -6,7 +6,7 @@
  </style>
 </head>
 <body class="w3-container">
-<h1>acc sensor 0.44</h1>
+<h1>acc sensor 0.45</h1>
 <button id="rockIt" class="w3-round w3-button w3-yellow">enable vibration</button>
 <div id = "myList" class="w3-panel" style="overflow:auto;height:100px;border: solid 1px"></div>
 <p><button id="copyList" class="w3-round w3-button w3-black"><b>copy to clipboard</b></button></p>
@@ -86,7 +86,7 @@ acl.addEventListener('reading', () => {
 acl.start();
 function v(){
     if (navigator.vibrate) { 
-        window.navigator.vibrate([300,200,300,200,300]); 
+        window.navigator.vibrate([300,50,300,50,300]); 
     } 
 }
 document.querySelector('#rockIt').addEventListener('click', v);
