@@ -1,36 +1,120 @@
-<html>
-<body>
+<!doctype html>
+<html lang="en">
+<body class="container">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
- <style>
- .hilite{
-    background-color:#ffff99;
- }
- html,
-body {
-    overscroll-behavior-y: contain;
-}
- </style>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
-<body class="w3-container">
-<h1>GPS log <span class="w3-small">[v0.122]</span></h1>
-<div id="myList" class="w3-container" style="overflow:auto;height:100px;border: solid 1px"></div>
-<p><button id="copyList" class="w3-round w3-button w3-black w3-small"><b>copy to clipboard</b></button></p>
+
+<h1>GPS log <span class="small">[v0.2]</span></h1>
+
+<div class="card border-primary">
+  <div class="card-header ">Your location</div>
+  <div class="card-body ">
+    <p class="card-text text-secondary"><span id="rightnow" class="small"></span></p>
+    <h5 class="card-title"><span id="coords" class=""></span></h5>
+  </div>
+  <div class="card-footer text-right"><span id="myStatus" class="small ">logging ⬜</span></div>
+</div>
+<!--
+<div class="w3-card w3-border w3-round w3-container w3-section">
+  <p><span id="rightnow" class="w3-small"></span></p>
+  <p><span id="coords" class="w3-large"></span></p>
+  <div> <span id="myStatus">logging ⬜</span></div>
+</div> -->
+
+<!--
+<div class="w3-card w3-border w3-round w3-container w3-section">
+  <p><span id="rightnow" class="w3-small">8/2/2020, 3:35:58 AM</span></p>
+  <p><span id="coords" class="w3-large">lat: 10.0018232, <br>lon: -66.09820009, <br>alt: 1101</span></p>
+  <div> <span id="rightnow" class="w3-right w3-tiny w3-text-gray w3-margin-bottom">logging ⬜</span></div>
+</div> 
+-->
+<button class="btn btn-primary" style="margin-top:8px; margin-bottom:8px" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">set up Airtable logging</button>
+
+<div id="collapseExample" class="collapse" style="border:1px solid #cecece; padding:8px">
+    <p class="w3-tiny"><b>Please note:</b> No data is ever sent back to our server. The script reads the values right from these inputs to link to your table .</p>
+    <form>
+    <div class="form-group">
+        <label for="endpoint" class="w3-small">endpoint</label>
+        <input id="endpoint" type="text" class="form-control" >
+    </div>
+    <div class="form-group">
+        <label for="apiKey" class="w3-small">API key</label>
+        <input id="apiKey" type="password" class="form-control" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <label for="lon" class="w3-small">lon. field name</label>
+        <input id="lonField" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="lat" class="w3-small">lat. field name</label>
+        <input id="latField" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="alt" class="w3-small">alt. field name</label>
+        <input id="altField" type="text" class="form-control">
+    </div>
+    <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">hide this section</button></p>
+    
+    </form>
+</div> 
+<script>
+function saveToAirtable(lon,lat,alt){
+    var lonField = $("#lonField").val();
+    var latField = $("#latField").val();
+    var altField = $("#altField").val();
+    //console.log(altField);
+    $.ajax({
+        url: document.getElementById("endpoint").value,
+        beforeSend: function(xhr) { 
+          xhr.setRequestHeader("Authorization", "Bearer "+document.getElementById("apiKey").value); 
+        },
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        data: '{  "fields": {"'+lonField+'":"'+lon+'","'+latField+'":"'+lat+'","'+altField+'":"'+alt+'"} }',
+        success: function (data) {
+          //console.log(JSON.stringify(data));
+          document.getElementById("myStatus").innerHTML = "logging 🟦";
+        },
+        error: function(){
+          document.getElementById("myStatus").innerHTML = "logging ⬜";
+        }
+    });
+}
+
+
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script> 
+
 <script>
 function geoFindMe() { 
+    //return;
   function success(position) {
-    
+    /*
     hiliteClass = "hilite"
     var x = document.getElementById("myList").getElementsByClassName(hiliteClass);
     for (i = 0; i < x.length; i++) {
       x[i].classList.remove(hiliteClass);
     } 
-        
+      */  
     
     
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
+    const altitude = position.coords.altitude;
+    /*
     var p = document.createElement("p");
     p.classList.add("w3-tiny");
     p.classList.add(hiliteClass);
@@ -38,6 +122,13 @@ function geoFindMe() {
     p.innerHTML = `lat: ${latitude}, lon: ${longitude}`;
     document.getElementById("myList").append(p);
     document.getElementById("myList").scrollTop = document.getElementById("myList").scrollHeight;
+    */
+    
+    var today  = new Date();
+    document.getElementById("rightnow").innerHTML = "Date: " + today.toLocaleString();
+    var cor = "lat: "+latitude+", <br>lon: "+longitude+", <br>alt: "+altitude+"";
+    document.getElementById("coords").innerHTML = cor;
+    saveToAirtable(longitude,latitude,altitude);
   }
   function error() {
     return 'Unable to retrieve your location';
@@ -67,10 +158,15 @@ function CopyToClipboard(containerid) {
   }
 }
 //=================================================================
+/*
 document.querySelector('#copyList').addEventListener('click', function(){
     CopyToClipboard("myList");
 });
+*/
 geoFindMe();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
